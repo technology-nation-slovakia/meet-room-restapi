@@ -1,0 +1,32 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>dbtest</h1>
+    <table>
+        <tr>
+            <th>id </th>
+            <th>name </th>
+            <th>description</th>
+            <th>start_date</th>
+            <th>end_date</th>
+            <th>isPrivate</th>
+            <th>user_id</th>
+            <th>item.place_id</th>
+            <th>item.itemtype_id</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.start_date }}</td>
+            <td>{{ item.end_date }}</td>
+            <td>{{ item.isPrivate }}</td>
+            <td>{{ item.user_id }}</td>
+            <td>{{ item.place_id }}</td>
+            <td>{{ item.itemtype_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
