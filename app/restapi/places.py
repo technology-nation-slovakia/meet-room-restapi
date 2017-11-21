@@ -2,58 +2,72 @@
 
 from flask_restful import Resource
 from app.sql import runSQL
+from datetime import datetime
+
 
 # Places RESTful endpoint methods definition
 class Places(Resource):
     def get(self,  place_id=None, item_id=None, startDate=None, endDate=None):
         if startDate:
+            # extract date from the startDate string
+            startDate1 = datetime.strptime(startDate, '%Y-%m-%d %H:%M:%S').date()
             return runSQL('''
-                SELECT places.id as place_id, places.name as place_name, items.id as item_id, items.name as item_name, items.description as description, start_date, end_date, isPrivate,
-                    item_type.id as type_id, item_type.name as type,
-                    users.id as user_id, users.name || ' ' || users.surname as user
-                FROM items, users, places, item_type
-                WHERE items.user_id = users.id
-                AND items.place_id = places.id
-                AND items.itemtype_id = item_type.id
-                AND date(start_date) >= '{0}'
-                AND date(end_date) <= '{1}'
-                AND places.id = {2};
-                '''.format(startDate, endDate or startDate, place_id)), 200
 
-        elif item_id:
-            return runSQL('''
-                SELECT places.id as place_id, places.name as place_name, items.id as item_id, items.name as item_name, items.description as description, start_date, end_date, isPrivate,
-                    item_type.id as type_id, item_type.name as type,
-                    users.id as user_id, users.name || ' ' || users.surname as user
-                FROM items, users, places, item_type
-                WHERE items.user_id = users.id
-                AND items.place_id = places.id
-                AND items.itemtype_id = item_type.id
-                AND places.id = {0}
-                AND items.id = {1};
-                '''.format(place_id, item_id)), 200
+                SELECT * FROM (
+
+                    SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
+                    FROM items
+                    WHERE
+                    place_ID = {1}
+                    AND itemtype_ID = 1
+                    AND datetime(start_date) <= '{0}'
+                    AND datetime(end_date) > '{0}'
+
+                    UNION ALL
+
+                    SELECT NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL /*if there is no ongoing event return array of NULLs*/
+
+                    LIMIT 1
+                    )
+
+                UNION ALL
+
+                SELECT * FROM (
+
+                    SELECT * FROM (
+
+                        SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
+                        FROM items
+                        WHERE
+                        place_ID = {1}
+                        AND itemtype_ID = 1
+                        AND datetime(start_date) > '{0}'
+                        AND date(end_date) = '{2}'
+                        ORDER BY start_date
+                        LIMIT 1
+                        )
+
+                    UNION ALL
+
+                    SELECT NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL /*if there is no upcoming event to the end of the actual day return array of NULLs*/
+
+                    LIMIT 1
+                    )
+                ;
+                '''.format(startDate, place_id, startDate1)), 200
 
         elif place_id:
             return runSQL('''
-                SELECT places.id as place_id, places.name as place_name, items.id as item_id, items.name as item_name, items.description as description, start_date, end_date, isPrivate,
-                    item_type.id as type_id, item_type.name as type,
-                    users.id as user_id, users.name || ' ' || users.surname as user
-                FROM items, users, places, item_type
-                WHERE items.user_id = users.id
-                AND items.place_id = places.id
-                AND items.itemtype_id = item_type.id
-                AND places.id = {};
+                SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
+                FROM items
+                WHERE place_ID = {};
                 '''.format(place_id)), 200 # HTTP status code 200 OK
+
 
         else:
             return runSQL('''
-                SELECT places.id as place_id, places.name as place_name, items.id as item_id, items.name as item_name, items.description as description, start_date, end_date, isPrivate,
-                    item_type.id as type_id, item_type.name as type,
-                    users.id as user_id, users.name || ' ' || users.surname as user
-                FROM items, users, places, item_type
-                WHERE items.user_id = users.id
-                AND items.place_id = places.id
-                AND items.itemtype_id = item_type.id;
+                SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
+                FROM items;
                 '''), 200
 
     def post(self, id=None):
