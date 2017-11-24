@@ -9,6 +9,12 @@ def runSQL(statement):
     # transforn result to array of rows
     rows = [dict(row) for row in result.fetchall()]
 
+    if len(rows) == 1:
+        rows = rows[0]
+    elif len(rows) == 0:
+        rows = {}
+
+
     # log statement
     if app.debug:
         app.logger.debug(statement)

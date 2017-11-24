@@ -7,82 +7,84 @@ from datetime import datetime
 
 # Places RESTful endpoint methods definition
 class Places(Resource):
-    def get(self,  place_id=None, item_id=None, startDate=None, endDate=None):
-        if startDate:
-            # extract date from the startDate string
-            startDate1 = datetime.strptime(startDate, '%Y-%m-%d %H:%M:%S').date()
+    def get(self,  place_id = None):
+        if place_id:
             return runSQL('''
-
-                SELECT * FROM (
-
-                    SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
-                    FROM items
-                    WHERE
-                    place_ID = {1}
-                    AND itemtype_ID = 1
-                    AND datetime(start_date) <= '{0}'
-                    AND datetime(end_date) > '{0}'
-
-                    UNION ALL
-
-                    SELECT NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL /*if there is no ongoing event return array of NULLs*/
-
-                    LIMIT 1
-                    )
-
-                UNION ALL
-
-                SELECT * FROM (
-
-                    SELECT * FROM (
-
-                        SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
-                        FROM items
-                        WHERE
-                        place_ID = {1}
-                        AND itemtype_ID = 1
-                        AND datetime(start_date) > '{0}'
-                        AND date(end_date) = '{2}'
-                        ORDER BY start_date
-                        LIMIT 1
-                        )
-
-                    UNION ALL
-
-                    SELECT NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL /*if there is no upcoming event to the end of the actual day return array of NULLs*/
-
-                    LIMIT 1
-                    )
-                ;
-                '''.format(startDate, place_id, startDate1)), 200
-
-        elif place_id:
-            return runSQL('''
-                SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
+                SELECT *
                 FROM items
                 WHERE place_ID = {};
                 '''.format(place_id)), 200 # HTTP status code 200 OK
-
-
         else:
             return runSQL('''
-                SELECT id as item_id, name as item_name, description, start_date, end_date, isPrivate, place_ID as places_id, itemtype_ID as item_type_id
-                FROM items;
+                SELECT *
+                FROM places;
                 '''), 200
 
-    def post(self, id=None):
+    def post(self, id = None):
         return {'places': 'Add new place'}
 
     # PUT method
-    def put(self, id=None):
+    def put(self, id = None):
         if id:
             return {'places': 'update place id={}'.format(id)}, 200
         else:
             return {'places': 'Update failed'}, 400 # Bad Request
 
 
-    def delete(self, id=None):
+    def delete(self, id = None):
         if id:
             return {'places': 'delete place id={}'.format(id)}, 200
         else:
             return {'places': 'delete all places'}, 200
+
+class PlacesItems(Resource):
+    def get(self, place_id = None, startDate = None, endDate = None):
+        if startDate:
+            return runSQL('''
+                SELECT *
+                FROM items
+                WHERE date(start_date) >= '{0}'
+                AND date(end_date) <= '{1}'
+                AND places.id = {2};
+                '''.format(startDate, endDate or startDate, place_id)), 200
+
+        elif place_id:
+            return runSQL('''
+                SELECT *
+                FROM items
+                WHERE place_ID = {};
+                '''.format(place_id)), 200 # HTTP status code 200 OK
+
+
+# Places RESTful endpoint methods definition
+class PlacesItemsNow(Resource):
+    def get(self,  place_id = None):
+        if place_id:
+            a = runSQL('''
+                SELECT *
+                FROM items
+                WHERE place_ID = {}
+                    AND itemtype_ID = 1
+                    AND start_date <= datetime('now')
+                    AND datetime('now') <= end_date;
+                    '''.format(place_id))
+
+            b = runSQL('''
+                SELECT *
+                    FROM items
+                    WHERE place_ID = {0}
+                    AND itemtype_ID = 1
+                    AND start_date > datetime('now')
+                    AND date(start_date) = date('now')
+                    ORDER BY start_date
+                    LIMIT 1;
+                    '''.format(place_id))
+
+            c = []
+            c.append(a)
+            c.append(b)
+
+            return c, 200
+
+
+
