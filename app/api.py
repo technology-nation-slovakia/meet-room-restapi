@@ -4,7 +4,7 @@ from flask_restful import Api
 
 # RESTful API endpoints
 from .restapi.items import Items
-from .restapi.places import Places
+from .restapi.places import Places, PlacesItems, PlacesItemsNow
 #from .restapi.users import Users, UserLogin, UserLogout, UserWhois
 
 api = Api(app)
@@ -16,7 +16,14 @@ api.add_resource(Items, '/api/items',
                         '/api/items/dates/<string:startDate>/<string:endDate>')
 
 api.add_resource(Places, '/api/places',
-                         '/api/places/<string:id>')
+                         '/api/places/<string:place_id>')
+
+api.add_resource(PlacesItems,'/api/places/<string:place_id>/items',
+                             '/api/places/<string:place_id>/items/dates/<string:startDate>',
+                             '/api/places/<string:place_id>/items/dates/<string:startDate>/<string:endDate>')
+
+api.add_resource(PlacesItemsNow, '/api/places/<string:place_id>/items/now')
+
 # api.add_resource(Users, '/api/users', '/api/users/<string:id>')
 # api.add_resource(UserLogin, '/api/user/login')
 # api.add_resource(UserLogout, '/api/user/logout')

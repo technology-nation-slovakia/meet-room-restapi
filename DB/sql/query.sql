@@ -5,3 +5,11 @@ FROM items, users, places, item_type
 WHERE items.user_id = users.id
 AND items.place_id = places.id
 AND items.itemtype_id = item_type.id;
+
+-- test
+SELECT *
+FROM items
+WHERE place_ID = 1
+    AND itemtype_ID = 1
+    AND start_date <= datetime('now')
+    AND datetime('now') <= end_date;

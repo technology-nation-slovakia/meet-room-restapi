@@ -22,6 +22,10 @@ INSERT INTO items (name, description, start_date, end_date, user_id, place_id, i
 INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #8','','2017-11-04 13:00:00', '2017-11-04 15:00:00', 1, 1, 1);
 INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #9','','2017-11-05 15:00:00', '2017-11-05 16:00:00', 1, 1, 1);
 
+INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #10','','2017-11-24 15:00:00', '2017-11-24 16:00:00', 1, 1, 1);
+INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #11','','2017-11-24 19:00:00', '2017-11-24 19:30:00', 1, 1, 1);
+INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #12','','2017-11-24 21:00:00', '2017-11-24 21:30:00', 1, 1, 1);
+
 -- events room3
 INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room3 Event #10','','2017-11-01 09:00:00', '2017-11-01 18:00:00', 1, 3, 1);
 INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room3 Event #11','','2017-11-02 09:00:00', '2017-11-02 18:00:00', 1, 3, 1);
