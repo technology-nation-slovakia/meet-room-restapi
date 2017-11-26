@@ -1,8 +1,6 @@
-# version 0.1.0
-
+# Places module
 from flask_restful import Resource
 from app.sql import runSQL
-from datetime import datetime
 
 
 # Places RESTful endpoint methods definition
@@ -11,8 +9,8 @@ class Places(Resource):
         if place_id:
             return runSQL('''
                 SELECT *
-                FROM items
-                WHERE place_ID = {};
+                FROM places
+                WHERE ID = {};
                 '''.format(place_id)), 200 # HTTP status code 200 OK
         else:
             return runSQL('''
@@ -37,6 +35,7 @@ class Places(Resource):
         else:
             return {'places': 'delete all places'}, 200
 
+
 class PlacesItems(Resource):
     def get(self, place_id = None, startDate = None, endDate = None):
         if startDate:
@@ -45,7 +44,7 @@ class PlacesItems(Resource):
                 FROM items
                 WHERE date(start_date) >= '{0}'
                 AND date(end_date) <= '{1}'
-                AND places.id = {2};
+                AND place_ID = {2};
                 '''.format(startDate, endDate or startDate, place_id)), 200
 
         elif place_id:
@@ -56,19 +55,22 @@ class PlacesItems(Resource):
                 '''.format(place_id)), 200 # HTTP status code 200 OK
 
 
-# Places RESTful endpoint methods definition
 class PlacesItemsNow(Resource):
     def get(self,  place_id = None):
         if place_id:
+            # ongoing event
             a = runSQL('''
                 SELECT *
                 FROM items
                 WHERE place_ID = {}
                     AND itemtype_ID = 1
                     AND start_date <= datetime('now')
-                    AND datetime('now') <= end_date;
+                    AND datetime('now') <= end_date
+                    ORDER BY start_date
+                    LIMIT 1;
                     '''.format(place_id))
 
+            # upcoming event
             b = runSQL('''
                 SELECT *
                     FROM items
@@ -81,8 +83,9 @@ class PlacesItemsNow(Resource):
                     '''.format(place_id))
 
             c = []
-            c.append(a)
-            c.append(b)
+            if a or b:
+                c.append(a)
+                c.append(b)
 
             return c, 200
 

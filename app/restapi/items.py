@@ -1,5 +1,4 @@
 # Items module
-
 from flask_restful import Resource
 from app.sql import runSQL
 
@@ -44,3 +43,15 @@ class Items(Resource):
             return {'items': 'delete item id={}'.format(id)}, 200
         else:
             return {'items': 'delete all items'}, 200
+
+
+class ItemsNow(Resource):
+    # GET method
+    def get(self):
+        return runSQL('''
+            SELECT *
+            FROM items
+            WHERE start_date <= datetime('now')
+                AND datetime('now') <= end_date
+            ORDER BY start_date, place_id;
+            '''.format(id)), 200 # HTTP status code 200 OK

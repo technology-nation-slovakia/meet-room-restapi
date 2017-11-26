@@ -5,4 +5,59 @@
     <h3>{{ title1 }}</h3>
     <h4>{{ title2 }}</h4>
     <p>Sources <a href='https://github.com/technology-nation-slovakia/meet-room-restapi'>https://github.com/technology-nation-slovakia/meet-room-restapi</a></p>
+
+    <h3>API examples:</h3>
+    <table>
+        <tr>
+            <td>Get all items</td>
+            <td><a href='/api/items'>/api/items</a></td>
+        </tr>
+        <tr>
+            <td>Get item with id=1 </td>
+            <td><a href='/api/items/1'>/api/items/1</a></td>
+        </tr>
+        <tr>
+            <td>Get items on date 2017-11-01</td>
+            <td> <a href='/api/items/dates/2017-11-01'>/api/items/dates/2017-11-01</a></td>
+        </tr>
+        <tr>
+            <td>Get items in date range 2017-11-03 / 2017-11-05  </td>
+            <td><a href='/api/items/dates/2017-11-03/2017-11-05'>/api/items/dates/2017-11-03/2017-11-05</a></td>
+        </tr>
+        <tr>
+            <td>Get ongoing items</td>
+            <td><a href='/api/items/now'>/api/items/now</a></td>
+        </tr>
+        <!--------------------------------->
+        <tr><td><hr></td></tr>
+
+        <tr>
+            <td>Get all places</td>
+            <td><a href='/api/places'>/api/places</a></td>
+        </tr>
+        <tr>
+            <td>Get place with id=1 </td>
+            <td><a href='/api/places/1'>/api/places/1</a></td>
+        </tr>
+        <tr>
+            <td>Get items related to place with id=1 </td>
+            <td><a href='/api/places/1/items'>/api/places/1/items</a></td>
+        </tr>
+        <tr>
+            <td>Get items related to place with id=1 on date 2017-11-01</td>
+            <td> <a href='/api/places/1/items/dates/2017-11-01'>/api/places/1/items/dates/2017-11-01</a></td>
+        </tr>
+        <tr>
+            <td>Get items related to place with id=1 in date range 2017-11-03 / 2017-11-05  </td>
+            <td><a href='/api/places/1/items/dates/2017-11-03/2017-11-05'>/api/places/1/items/dates/2017-11-03/2017-11-05</a></td>
+        </tr>
+        <tr>
+            <td>Get ongoing event & upcoming event for place id=1</td>
+            <td><a href='/api/places/1/items/now'>/api/places/1/items/now</a></td>
+        </tr>
+
+
+    </table>
+    <h3><em>All datetime stamps in UTC according to ISO-8601</em></h3>
+
 {% endblock %}
