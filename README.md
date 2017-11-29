@@ -21,3 +21,7 @@ Test Server <https://meet-room-restapi.eu-gb.mybluemix.net/>
     /api/places/:place_id/items/dates/:startDate/:endDate
     /api/places/:place_id/items/now
     ```
+* ver. 0.3.0 Events from linked Google Calendar
+    ```
+    /api/places/:place_id/google
+    ```

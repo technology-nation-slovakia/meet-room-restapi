@@ -5,7 +5,7 @@ from flask_restful import Api
 # RESTful API endpoints
 from . restapi.items import Items, ItemsNow
 from . restapi.places import Places, PlacesItems, PlacesItemsNow
-from . restapi.google import GoogleEventsUpdate
+from . restapi.google import PlacesGoogleEvents
 #from . restapi.users import Users, UserLogin, UserLogout, UserWhois
 
 api = Api(app)
@@ -32,8 +32,8 @@ api.add_resource(PlacesItems,
 api.add_resource(PlacesItemsNow,
                 '/api/places/<string:place_id>/items/now')
 
-api.add_resource(GoogleEventsUpdate,
-                '/api/google/<string:place_id>/items/now')
+api.add_resource(PlacesGoogleEvents,
+                '/api/places/<string:place_id>/google')
 
 # api.add_resource(Users, '/api/users', '/api/users/<string:id>')
 # api.add_resource(UserLogin, '/api/user/login')
