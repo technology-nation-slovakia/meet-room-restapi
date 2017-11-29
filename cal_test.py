@@ -7,10 +7,6 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 from flask import jsonify
-#from cs50 import SQL
-
-import cs50
-#from app.google.sql2 import SQL
 
 import datetime
 
@@ -85,8 +81,6 @@ def main(room):
     #if not events:
         #print('No upcoming events found.')
 
-    #db = SQL("sqlite:///calendar.db")
-
     for event in events:
         #print(event, type(event))
         #start = event['start'].get('dateTime', event['start'].get('date'))
@@ -105,22 +99,6 @@ def main(room):
             description = ""
             summary = ""
             visibility = "FALSE"
-
-        #print(start, summary, end)
-
-        # result = db.execute("INSERT into Items (user_id, event_id, event_org, event_creat, event_name, event_descript, start_date, end_date, isPrivate, place_id, item_type_id, parent_id) VALUES (:user_id, :event_id, :event_org, :event_creat, :event_name, :event_descript, :start_date, :end_date, :isPrivate, :place_id, :item_type_id, :parent_id)",
-        #     user_id = 1,
-        #     event_id = event['id'],
-        #     event_org = organizer,
-        #     event_creat = creator,
-        #     event_name = summary,
-        #     event_descript = description,
-        #     start_date = start,
-        #     end_date = end,
-        #     isPrivate = visibility,
-        #     place_id = 1,
-        #     item_type_id = 1,
-        #     parent_id = 1)
 
     return events
 

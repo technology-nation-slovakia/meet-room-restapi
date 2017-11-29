@@ -1,7 +1,7 @@
 # Places module
 from flask_restful import Resource
 from app.sql import runSQL
-from app.google.cal_test import main
+from cal_test import main
 
 
 # Places RESTful endpoint methods definition
