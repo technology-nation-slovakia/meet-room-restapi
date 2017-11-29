@@ -32,13 +32,8 @@ def get_credentials():
     Returns:
         Credentials, the obtained credential.
     """
-    # home_dir = os.path.expanduser('~')
-    # credential_dir = os.path.join(home_dir, '.credentials')
-    # if not os.path.exists(credential_dir):
-    #     os.makedirs(credential_dir)
     credential_path = os.path.join(os.getcwd(),
                                    'calendar-credentials.json')
-
     store = Storage(credential_path)
     credentials = store.get()
     if not credentials or credentials.invalid:
@@ -50,10 +45,6 @@ def get_credentials():
         credentials = flow.step2_exchange(code)
         store.put(credentials)
 
-        # if flags:
-        #     credentials = tools.run_flow(flow, store, flags)
-        # else: # Needed only for compatibility with Python 2.6
-        #     credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
@@ -72,23 +63,12 @@ def main(room):
     timeMin = datetime.datetime.utcnow().strftime("%Y-%m-%dT00:00:00.%f" + 'Z')
     timeMax = datetime.datetime.utcnow().strftime("%Y-%m-%dT23:59:59.%f" + 'Z')
 
-    #print('Getting the upcoming 10 events')
     eventsResult = service.events().list(
         calendarId=room['id_remote'], timeMin=timeMin, timeMax=timeMax, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
-    #if not events:
-        #print('No upcoming events found.')
-
     for event in events:
-        #print(event, type(event))
-        #start = event['start'].get('dateTime', event['start'].get('date'))
-        #end = event['end'].get('dateTime', event['end'].get('date'))
-        #organizer = event['organizer'].get('email', event['organizer'].get('email'))
-        #creator = event['creator'].get('email', event['creator'].get('email'))
-
-        #deal with the situation, when user does not fill in the calendar description, summary, visibility - stays default
         visibility = "FALSE"
         try:
             description = event['description']
@@ -101,7 +81,6 @@ def main(room):
             visibility = "FALSE"
 
     return events
-
 
 if __name__ == '__main__':
     main()
