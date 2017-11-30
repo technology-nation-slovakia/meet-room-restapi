@@ -25,13 +25,14 @@ CREATE TABLE Places (
 id          INTEGER     PRIMARY KEY AUTOINCREMENT,
 name        TEXT        NOT NULL UNIQUE,
 description TEXT,
-id_remote   TEXT
+id_remote   TEXT,
+timeZone    INTEGER
 );
 
-INSERT INTO Places (name, id_remote) VALUES ('Room 1', 'cscoursetest1@gmail.com');
-INSERT INTO Places (name, id_remote) VALUES ('Room 2', '19a82ol49q84c4sj4gdiimt9as@group.calendar.google.com');
-INSERT INTO Places (name, id_remote) VALUES ('Room 3', 'sglon18uoo029k7u91r5bsoeeg@group.calendar.google.com');
-INSERT INTO Places (name, id_remote) VALUES ('Room 4', 'oiv6geb1uda9lv1odgbhf5sjoo@group.calendar.google.com');
+INSERT INTO Places (name, id_remote, timeZone) VALUES ('Room 1', 'cscoursetest1@gmail.com', 1);
+INSERT INTO Places (name, id_remote, timeZone) VALUES ('Room 2', '19a82ol49q84c4sj4gdiimt9as@group.calendar.google.com', 1);
+INSERT INTO Places (name, id_remote, timeZone) VALUES ('Room 3', 'sglon18uoo029k7u91r5bsoeeg@group.calendar.google.com', 1);
+INSERT INTO Places (name, id_remote, timeZone) VALUES ('Room 4', 'oiv6geb1uda9lv1odgbhf5sjoo@group.calendar.google.com', 1);
 
 -- Create table item_type
 CREATE TABLE Item_type (

@@ -17,21 +17,24 @@ def get_credentials():
         return None
     return credentials
 
-def today_events(calendar_id):
+def today_events(calendar_id, tzone):
     credentials = get_credentials()
     if not credentials:
         return None
 
     http = credentials.authorize(httplib2.Http())
-    service = discovery.build('calendar', 'v3', http=http)
+    service = discovery.build('calendar', 'v3', http = http)
 
-    #now = datetime.datetime.utcnow().isoformat()  + 'Z' # 'Z' indicates UTC time
-    timeMin = datetime.datetime.utcnow().strftime("%Y-%m-%dT00:00:00Z")
-    timeMax = datetime.datetime.utcnow().strftime("%Y-%m-%dT23:59:59Z")
+    # Target time recalculation using calendar's timeZone
+    timeZone = datetime.timedelta(hours = tzone)
+    currentTime = datetime.datetime.utcnow()
+    # apply timeZone difference between utc and local time and convert to ISO-8601 datetime
+    timeMin = (currentTime + timeZone).strftime("%Y-%m-%dT00:00:00Z")
+    timeMax = (currentTime + timeZone).strftime("%Y-%m-%dT23:59:59Z")
 
     eventsResult = service.events().list(
-        calendarId=calendar_id, timeMin=timeMin, timeMax=timeMax, singleEvents=True,
-        orderBy='startTime').execute()
+        calendarId = calendar_id, timeMin = timeMin, timeMax = timeMax, singleEvents = True,
+        orderBy = 'startTime').execute()
     events = eventsResult.get('items', [])
 
     return events

@@ -9,13 +9,13 @@ class PlacesGoogleEvents(Resource):
     def get(self,  place_id = None):
         if place_id:
             room = runSQL('''
-                SELECT id_remote
+                SELECT *
                 FROM places
                 WHERE ID = {};
                 '''.format(place_id))
 
             if room: # get events from Google Calendar
-                events = today_events(room['id_remote'])
+                events = today_events(room['id_remote'], room['timeZone'])
             else:
                 events = {}
 

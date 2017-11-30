@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 HOST = '0.0.0.0'
 PORT = int(os.getenv('PORT', '8080'))
 API_NAME = 'Meet Room Watch project RESTful API'
-API_VERSION = '0.3.0'
+API_VERSION = '0.3.1'
 
 #Google API
 GC_CLIENT_SECRET = os.path.join(basedir, 'client_secret.json')

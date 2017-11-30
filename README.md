@@ -25,3 +25,4 @@ Test Server <https://meet-room-restapi.eu-gb.mybluemix.net/>
     ```
     /api/places/:place_id/google-calendar
     ```
+* ver. 0.3.1 Google Calendar: Handle calendar's time zone difference between server UTC time and client local time
