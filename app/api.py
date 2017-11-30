@@ -33,7 +33,7 @@ api.add_resource(PlacesItemsNow,
                 '/api/places/<string:place_id>/items/now')
 
 api.add_resource(PlacesGoogleEvents,
-                '/api/places/<string:place_id>/google')
+                '/api/places/<string:place_id>/google-calendar')
 
 # api.add_resource(Users, '/api/users', '/api/users/<string:id>')
 # api.add_resource(UserLogin, '/api/user/login')
