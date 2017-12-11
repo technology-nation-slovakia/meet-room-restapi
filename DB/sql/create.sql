@@ -25,8 +25,7 @@ CREATE TABLE Places (
 id          INTEGER     PRIMARY KEY AUTOINCREMENT,
 name        TEXT        NOT NULL UNIQUE,
 description TEXT,
-id_remote   TEXT,
-timeZone    INTEGER
+id_remote   TEXT
 );
 
 -- Create table item_type
@@ -53,7 +52,7 @@ user_id     INTEGER     NOT NULL REFERENCES users (id),
 place_id    INTEGER     REFERENCES          places (id),
 itemtype_id INTEGER     REFERENCES          item_type (id),
 id_remote   TEXT,
-updated     BOOLEAN     DEFAULT 0
+updated     BOOLEAN     DEFAULT 1
 );
 
 -----------

@@ -14,8 +14,8 @@ api = Api(app)
 api.add_resource(Items,
                 '/api/items',
                 '/api/items/<string:id>',
-                '/api/items/dates/<string:startDate>',
-                '/api/items/dates/<string:startDate>/<string:endDate>')
+                '/api/items/dates/<string:start_date>',
+                '/api/items/dates/<string:start_date>/<string:end_date>')
 
 api.add_resource(ItemsNow,
                 '/api/items/now')
@@ -26,8 +26,8 @@ api.add_resource(Places,
 
 api.add_resource(PlacesItems,
                 '/api/places/<string:place_id>/items',
-                '/api/places/<string:place_id>/items/dates/<string:startDate>',
-                '/api/places/<string:place_id>/items/dates/<string:startDate>/<string:endDate>')
+                '/api/places/<string:place_id>/items/dates/<string:start_date>',
+                '/api/places/<string:place_id>/items/dates/<string:start_date>/<string:end_date>')
 
 api.add_resource(PlacesItemsNow,
                 '/api/places/<string:place_id>/items/now')
