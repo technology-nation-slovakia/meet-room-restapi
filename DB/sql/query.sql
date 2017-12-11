@@ -30,3 +30,13 @@ AND place_id = 1
 AND ((start_date < '2017-12-09T23:00:00Z' AND '2017-12-09T23:00:00Z' < end_date)
     OR ('2017-12-09T23:00:00Z' <= start_date AND end_date <= '2017-12-10T22:59:00Z')
     OR (start_date < '2017-12-10T22:59:00Z' AND '2017-12-10T22:59:00Z' < end_date));
+
+
+SELECT id, name, description, strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as start_date,
+    strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as end_date, place_id
+FROM items
+WHERE place_id=1
+    AND itemtype_id=1
+    AND datetime(start_date) <= datetime('now')
+    AND datetime('now') <= datetime(end_date)
+    ORDER BY id_remote DESC, start_date;

@@ -71,7 +71,8 @@ class PlacesItemsNow(Resource):
         gc_sync_db(place_id)
         # ongoing event
         a = runSQL('''
-            SELECT *
+            SELECT id, name, description, strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as start_date,
+                strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as end_date, place_id
             FROM items
             WHERE place_id={}
                 AND itemtype_id=1
@@ -83,20 +84,21 @@ class PlacesItemsNow(Resource):
 
         # upcoming event
         b = runSQL('''
-            SELECT *
-                FROM items
-                WHERE place_id={0}
-                AND itemtype_id=1
-                AND datetime(start_date) > datetime('now')
-                AND date(start_date) = date('now')
-                ORDER BY id_remote DESC, start_date
-                LIMIT 1;
+            SELECT id, name, description, strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as start_date,
+                strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as end_date, place_id
+            FROM items
+            WHERE place_id={0}
+            AND itemtype_id=1
+            AND datetime(start_date) > datetime('now')
+            AND date(start_date) = date('now')
+            ORDER BY id_remote DESC, start_date
+            LIMIT 1;
                 '''.format(place_id))
 
         c = []
-        if a or b:
-            c.append(a)
-            c.append(b)
+        #if a or b:
+        c.append(a)
+        c.append(b)
 
         return c, 200
 
