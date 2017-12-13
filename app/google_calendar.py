@@ -52,7 +52,7 @@ def gc_get_events(calendar_id, start_datetime, end_datetime):
     # request events from Google Calendar
     events_result = service.events().list(
         calendarId = calendar_id, timeMin = time_min, timeMax = time_max, singleEvents = True,
-        orderBy = 'startTime').execute()
+        orderBy = 'startTime',  timeZone='UTC').execute()
     events = events_result.get('items', [])
     console_log('Recieved {0} events'.format(len(events)), 'info')
 
@@ -128,17 +128,18 @@ def gc_sync_db(place_id=None, start_date=None, end_date=None):
                         WHERE place_id = {place_id}
                         AND id_remote = '{id_remote}';
                         '''.format(place_id=place_id, name=event.get('summary','N/A').strip(), desc=event.get('description', 'N/A').strip(),
-                        start_date=event['start'].get('dateTime', event['start'].get('date')),
-                        end_date=event['end'].get('dateTime', event['end'].get('date')), id_remote=event['id'
-                        ])):
+                        start_date=datetime.datetime.strptime(event['start']['dateTime'], '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S'),
+                        end_date=datetime.datetime.strptime(event['end']['dateTime'], '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S'),
+                        id_remote=event['id'])):
                     pass
                 else:
                     runSQL('''
                         INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id, id_remote, updated)
                         VALUES ('{name}','{desc}','{start_date}','{end_date}', 1, {place_id}, 1, '{id_remote}', 1);
                         '''.format(place_id=place_id, name=event.get('summary','N/A').strip(), desc=event.get('description','N/A').strip(),
-                        start_date=event['start'].get('dateTime', event['start'].get('date')),
-                        end_date=event['end'].get('dateTime', event['end'].get('date')), id_remote=event['id']))
+                        start_date=datetime.datetime.strptime(event['start']['dateTime'], '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S'),
+                        end_date=datetime.datetime.strptime(event['end']['dateTime'], '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S'),
+                        id_remote=event['id']))
 
             # remove not updated items
             runSQL('''

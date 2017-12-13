@@ -37,6 +37,15 @@ SELECT id, name, description, strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as star
 FROM items
 WHERE place_id=1
     AND itemtype_id=1
-    AND datetime(start_date) <= datetime('now')
-    AND datetime('now') <= datetime(end_date)
+    AND start_date <= datetime('now')
+    AND datetime('now') <= end_date
     ORDER BY id_remote DESC, start_date;
+
+
+SELECT id, name, description, strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as start_date,
+strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as end_date, place_id
+                FROM items
+                WHERE place_id = 1
+                AND ((start_date < '2017-12-01 23:00:00' AND '2017-12-01 23:00:00' < end_date)
+                    OR ('2017-12-01 23:00:00' <= start_date AND end_date <= '2017-12-20 23:00:00')
+                    OR (start_date < '2017-12-20 23:00:00' AND '2017-12-20 23:00:00' < end_date));

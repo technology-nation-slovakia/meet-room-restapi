@@ -61,10 +61,10 @@ def main():
     # timeMax = (current_time + time_zone).strftime("%Y-%m-%dT23:59:59"+tz)
     timeMin = start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
     timeMax = end_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-    print(timeMin, timeMax)
+    print('GC time range [', timeMin, ':', timeMax, ']')
     eventsResult = service.events().list(
         calendarId='primary', timeMin=timeMin, timeMax=timeMax, maxResults=10, singleEvents=True,
-        orderBy='startTime').execute()
+        orderBy='startTime', timeZone='UTC').execute()
     #print(eventsResult)
     events = eventsResult.get('items', [])
 
