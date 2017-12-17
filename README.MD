@@ -1,21 +1,28 @@
-## Technology Nation Bratislava/ Campus 0101/ CS50 Final project
-#### Meet Room Watch Project
-#### RESTful API Server
+# Technology Nation Bratislava/ Campus 0101/ CS50 Final project
+## Meet Room Watch Project
+## RESTful API Server
 Test Server <https://meet-room-restapi.eu-gb.mybluemix.net/>
 
-#### 1. Introduction
+
+
+## 1. Introduction
 The project intended to help IT campuses and co-working spaces to serve their events scheduler, messages, alerts, resources and meeting rooms’ reservation instead of shared Google calendars. It is aimed simplify the process and enhance the quality of their booking services.
 
-#### 2. Design and Implementation
+
+
+## 2. Design and Implementation
 The general structure of the project
 ![Technical Diagram](Technical_Diagram.jpg)
 
 The basic backend architecture builded using FLASK framework extended with flask-restful, flask_sqlalchemy,
 google-api-python-client and flask-cors extensions.
 
-##### 2.1 The RESTful API Specification
+
+
+### 2.1 The RESTful API Specification
 To build the RESTful module we used the Flask-Restful extension for Flask that adds support for
 quickly building REST APIs.
+
 
 _The brief API endpoints specification_
 
@@ -64,14 +71,21 @@ _The brief API endpoints specification_
 | /user/whois | GET |   | Logged on User detail |
 
 
-#### 2.2 Front-end Architecture Design
+
+
+### 2.2 Front-end Architecture Design
 Check the projects's frontend repository <https://github.com/technology-nation-slovakia/campus-final-project-2017-FrontEnd-react16>
 
 
-#### 2.3 Database Schemas, Design and Structure
+
+
+### 2.3 Database Schemas, Design and Structure
 ![DB ERD Diagram](DB/meet-room-db.png)
 
+
+
 _Tables structure_
+
 
 **Users**
 
@@ -85,6 +99,7 @@ _Tables structure_
 | password | TEXT  | NOT NULL | Plain text password for the 1-2 milestones Will be changed to password hash |
 | admin | BOOLEAN  | DEFAULT 0 | User is administrator = 1 |
 
+
 **Places**
 
 | Field | Type | CONSTRAINT | Description |
@@ -94,12 +109,14 @@ _Tables structure_
 | description | TEXT |   | Optional description |
 | id\_remote | TEXT |   | generated Google Calendar ID - unique for every calendar |
 
+
 **Item\_type (predefined table )**
 
 | Field | Type | CONSTRAINT | Description |
 | --- | --- | --- | --- |
 | id | INTEGER | PRIMARY KEY |   |
 | name | TEXT | NOT NULL | Predefined rows (1=Event, 2=Info, 3=Alert, 4=Message) |
+
 
 **Items**
 
@@ -118,14 +135,18 @@ _Tables structure_
 | updated | BOOLEAN | DEFAULT 0 | False - 0, True -1 |
 
 
-#### 2.4 Communication
+
+
+### 2.4 Communication
 Clients will use HTTP/HTTPS protocol to request data from RESTful API by calling predefined
 endpoints using the correct method. In response will receive JSON data structured mostly like the Items
 DB table.
 
+
 _API call example:_
 
 <https://meet-room-restapi.eu-gb.mybluemix.net/api/places/1/items/now>
+
 
 _JSON response example:_
 
@@ -150,7 +171,9 @@ _JSON response example:_
 ]
 ```
 
-#### References
+
+
+## References
 * Flask <http://flask.pocoo.org/>
 * Flask RESTful <https://flask-restful.readthedocs.io/en/latest/index.html>
 * SQLAlchemy <http://docs.sqlalchemy.org/en/rel_1_1/orm/index.html>
