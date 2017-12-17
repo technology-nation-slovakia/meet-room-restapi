@@ -18,7 +18,9 @@ To build the RESTful module we used the Flask-Restful extension for Flask that a
 quickly building REST APIs.
 
 _The brief API endpoints specification_
+
  **Items** (Event, Info, Alert, Message)
+
 | endpoint | method | scope | description |
 | --- | --- | --- | --- |
 | /items | GET | ALL | All items list |
@@ -31,7 +33,9 @@ _The brief API endpoints specification_
 | /items/dates/:start\_date/:end\_date | GET | ALL | Get items in date range |
 | /items/now | GET | ALL | Get ongoing items |
 
+
 **Places**
+
 | endpoint | method | scope | description |
 | --- | --- | --- | --- |
 | /places | GET | ALL | All places list |
@@ -44,7 +48,9 @@ _The brief API endpoints specification_
 | /places/:place\_id/items/dates/:start\_date/:end\_date | GET | ALL | Get items related to place in date range |
 | /places/:place\_id/items/now | GET | ALL | Get ongoing event &amp; upcoming event for place |
 
+
 **Users**
+
 | endpoint | method | scope | description |
 | --- | --- | --- | --- |
 | /users | GET | Admin | All users list. Admins Only |
@@ -66,7 +72,9 @@ Check the projects's frontend repository <https://github.com/technology-nation-s
 ![DB ERD Diagram](DB/meet-room-db.png)
 
 _Tables structure_
+
 **Users**
+
 | Field | Type | CONSTRAINT | Description |
 | --- | --- | --- | --- |
 | id | INTEGER | PRIMARY KEY  AUTOINCREMENT | User ID. |
@@ -78,6 +86,7 @@ _Tables structure_
 | admin | BOOLEAN  | DEFAULT 0 | User is administrator = 1 |
 
 **Places**
+
 | Field | Type | CONSTRAINT | Description |
 | --- | --- | --- | --- |
 | id | INTEGER | PRIMARY KEY   AUTOINCREMENT | Place ID |
@@ -86,12 +95,14 @@ _Tables structure_
 | id\_remote | TEXT |   | generated Google Calendar ID - unique for every calendar |
 
 **Item\_type (predefined table )**
+
 | Field | Type | CONSTRAINT | Description |
 | --- | --- | --- | --- |
 | id | INTEGER | PRIMARY KEY |   |
 | name | TEXT | NOT NULL | Predefined rows (1=Event, 2=Info, 3=Alert, 4=Message) |
 
 **Items**
+
 | Field | Type | CONSTRAINT | Description |
 | --- | --- | --- | --- |
 | id | INTEGER   | PRIMARY KEY AUTOINCREMENT |   |
@@ -113,8 +124,11 @@ endpoints using the correct method. In response will receive JSON data structure
 DB table.
 
 _API call example:_
+
 <https://meet-room-restapi.eu-gb.mybluemix.net/api/places/1/items/now>
+
 _JSON response example:_
+
 ```JSON
 [
   {
