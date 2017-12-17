@@ -15,8 +15,8 @@ class termcolor:
 
 
 def console_log(text, style):
-    if not app.debug:
-        return
+    # if not app.debug:
+    #     return
     current_time = datetime.datetime.utcnow().strftime("[%d/%m/%Y %H:%M:%S] ")
 
     print(current_time, end='')

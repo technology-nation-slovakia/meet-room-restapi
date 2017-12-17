@@ -40,8 +40,7 @@ class PlacesItems(Resource):
     def get(self, place_id, start_date=None, end_date=None):
 
         if end_date:
-            if not gc_synced():
-                gc_sync_db(place_id, start_date, end_date)
+            gc_sync_db(place_id, start_date, end_date)
             return runSQL('''
                 SELECT {fields}
                 FROM items
@@ -51,8 +50,7 @@ class PlacesItems(Resource):
                     OR (datetime(start_date) < datetime('{end_date}') AND datetime('{end_date}') < datetime(end_date)));
                 '''.format(place_id=place_id, start_date=start_date, end_date=end_date, fields=app.config['SQL_DEFAULT_FIELDS'])), 200
         elif start_date:
-            if not gc_synced():
-                gc_sync_db(place_id, start_date)
+            gc_sync_db(place_id, start_date)
             return runSQL('''
                 SELECT {fields}
                 FROM items
@@ -73,7 +71,7 @@ class PlacesItems(Resource):
 class PlacesItemsNow(Resource):
     def get(self, place_id):
         if not gc_synced():
-            gc_sync_db(place_id)
+            gc_sync_db()
         # ongoing event
         a = runSQL('''
             SELECT {fields}

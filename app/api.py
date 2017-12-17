@@ -3,9 +3,9 @@ from app import app
 from flask_restful import Api
 
 # RESTful API endpoints
-from . restapi.items import Items, ItemsNow
-from . restapi.places import Places, PlacesItems, PlacesItemsNow
-from . restapi.google import PlacesGoogleEvents
+from app.restapi.items import Items, ItemsNow
+from app.restapi.places import Places, PlacesItems, PlacesItemsNow
+from app.restapi.google import PlacesGoogleEvents
 #from . restapi.users import Users, UserLogin, UserLogout, UserWhois
 
 api = Api(app)

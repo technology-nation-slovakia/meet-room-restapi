@@ -32,3 +32,4 @@ Test Server <https://meet-room-restapi.eu-gb.mybluemix.net/>
     /api/places/:place_id/items/dates/:start_datetime/:end_datetime
     ```
 * ver. 0.4.1 Fix datetime in JSON response according to ISO-8601. Limit minimal re-sync time interval for GC
+* ver. 0.4.2 Google calendar sync small fixes
