@@ -26,49 +26,49 @@ quickly building REST APIs.
 
 _The brief API endpoints specification_
 
- **Items** (Event, Info, Alert, Message)
+**Items** (Event, Info, Alert, Message)
 
-| endpoint | method | scope | description |
-| --- | --- | --- | --- |
-| /items | GET | ALL | All items list |
-|   | POST | ALL | Create new item |
-|   | DELETE | Admin | Remove all items |
-| /items/:itemID | GET | ALL | Item details where Items.ID==itemID |
-|   | PUT | User/Admin | Update data of User&#39;s item where Items.ID==itemID |
-|   | DELETE | User/Admin | Remove User&#39;s item with Items.ID==itemID |
-| /items/dates/:start\_date   | GET | ALL | Get items on date |
-| /items/dates/:start\_date/:end\_date | GET | ALL | Get items in date range |
-| /items/now | GET | ALL | Get ongoing items |
+| endpoint                              | method  | scope       | description                                           |
+|---------------------------------------|---------|-------------|-------------------------------------------------------|
+| /items                                | GET     | ALL         | All items list                                        |
+|                                       | POST    | ALL         | Create new item                                       |
+|                                       | DELETE  | Admin       | Remove all items                                      |
+| /items/:itemID                        | GET     | ALL         | Item details where Items.ID==itemID                   |
+|                                       | PUT     | User/Admin  | Update data of User&#39;s item where Items.ID==itemID |
+|                                       | DELETE  | User/Admin  | Remove User&#39;s item with Items.ID==itemID          |
+| /items/dates/:start\_date             | GET     | ALL         | Get items on date                                     |
+| /items/dates/:start\_date/:end\_date  | GET     | ALL         | Get items in date range                               |
+| /items/now                            | GET     | ALL         | Get ongoing items                                     |
 
 
 **Places**
 
-| endpoint | method | scope | description |
-| --- | --- | --- | --- |
-| /places | GET | ALL | All places list |
-|   | POST | Admin | Create new place |
-|   | DELETE | Admin | Remove all places |
-| /places/:placeID | GET | ALL | place details where places.ID==placeID |
-|   | PUT | Admin | Update data of place where places.ID==placeID |
-|   | DELETE | Admin | Remove place with places.ID==placeID |
-| /places/:place\_id/items/dates/:start\_date | GET | ALL | Get items related to place on date |
-| /places/:place\_id/items/dates/:start\_date/:end\_date | GET | ALL | Get items related to place in date range |
-| /places/:place\_id/items/now | GET | ALL | Get ongoing event &amp; upcoming event for place |
+| endpoint                                                | method  | scope | description                                       |
+|---------------------------------------------------------|---------|-------|---------------------------------------------------|
+| /places                                                 | GET     | ALL   | All places list                                   |
+|                                                         | POST    | Admin | Create new place                                  |
+|                                                         | DELETE  | Admin | Remove all places                                 |
+| /places/:placeID                                        | GET     | ALL   | place details where places.ID==placeID            |
+|                                                         | PUT     | Admin | Update data of place where places.ID==placeID     |
+|                                                         | DELETE  | Admin | Remove place with places.ID==placeID              |
+| /places/:place\_id/items/dates/:start\_date             | GET     | ALL   | Get items related to place on date                |
+| /places/:place\_id/items/dates/:start\_date/:end\_date  | GET     | ALL   | Get items related to place in date range          |
+| /places/:place\_id/items/now                            | GET     | ALL   | Get ongoing event &amp; upcoming event for place  |
 
 
 **Users**
 
-| endpoint | method | scope | description |
-| --- | --- | --- | --- |
-| /users | GET | Admin | All users list. Admins Only |
-|   | DELETE | Admin | Remove all users except admins. |
-|   | POST | ALL | Create or Register  a new user |
-| /users/:userID | GET | Admin | User info |
-|   | PUT | User/Admin | Update user info |
-|   | DELETE | User/Admin | Remove user account |
-| /user/login | POST | email/pwd | Login user with email &amp; pwd |
-| /user/logout | GET |   | Logout current user |
-| /user/whois | GET |   | Logged on User detail |
+| endpoint        | method  | scope       | description                     |
+|-----------------|---------|-------------|---------------------------------|
+| /users          | GET     | Admin       | All users list. Admins Only     |
+|                 | DELETE  | Admin       | Remove all users except admins  |
+|                 | POST    | ALL         | Create or Register  a new user  |
+| /users/:userID  | GET     | Admin       | User info                       |
+|                 | PUT     | User/Admin  | Update user info                |
+|                 | DELETE  | User/Admin  | Remove user account             |
+| /user/login     | POST    | email/pwd   | Login user with email &amp; pwd |
+| /user/logout    | GET     |             | Logout current user             |
+| /user/whois     | GET     |             | Logged on User detail           |
 
 
 
@@ -78,8 +78,12 @@ Check the projects's frontend repository <https://github.com/technology-nation-s
 
 
 
+### 2.3 Data Handling
+![Data Handling Diagram](Data_Handling.png)
 
-### 2.3 Database Schemas, Design and Structure
+
+
+### 2.4 Database Schemas, Design and Structure
 ![DB ERD Diagram](DB/meet-room-db.png)
 
 
@@ -89,55 +93,55 @@ _Tables structure_
 
 **Users**
 
-| Field | Type | CONSTRAINT | Description |
-| --- | --- | --- | --- |
-| id | INTEGER | PRIMARY KEY  AUTOINCREMENT | User ID. |
-| email | TEXT | NOT NULL UNIQUE | email |
-| name | TEXT | NOT NULL |   |
-| surname | TEXT | NOT NULL |   |
-| reg\_date | DATETIME | DEFAULT CURRENT\_TIMESTAMP | Registration date |
-| password | TEXT  | NOT NULL | Plain text password for the 1-2 milestones Will be changed to password hash |
-| admin | BOOLEAN  | DEFAULT 0 | User is administrator = 1 |
+| Field     | Type      | CONSTRAINT                  | Description                                                                 |
+|-----------|-----------|-----------------------------|-----------------------------------------------------------------------------|
+| id        | INTEGER   | PRIMARY KEY  AUTOINCREMENT  | User ID.                                                                    |
+| email     | TEXT      | NOT NULL UNIQUE             | email                                                                       |
+| name      | TEXT      | NOT NULL                    |                                                                             |
+| surname   | TEXT      | NOT NULL                    |                                                                             |
+| reg\_date | DATETIME  | DEFAULT CURRENT\_TIMESTAMP  | Registration date                                                           |
+| password  | TEXT      | NOT NULL                    | Plain text password for the 1-2 milestones Will be changed to password hash |
+| admin     | BOOLEAN   | DEFAULT 0                   | User is administrator = 1                                                   |
 
 
 **Places**
 
-| Field | Type | CONSTRAINT | Description |
-| --- | --- | --- | --- |
-| id | INTEGER | PRIMARY KEY   AUTOINCREMENT | Place ID |
-| name | TEXT | NOT NULL UNIQUE | Place name. Ex: Terrace, CoffeeBarSpace, Room1, Room2 |
-| description | TEXT |   | Optional description |
-| id\_remote | TEXT |   | generated Google Calendar ID - unique for every calendar |
+| Field       | Type    | CONSTRAINT                  | Description                                               |
+|-------------|---------|-----------------------------|-----------------------------------------------------------|
+| id          | INTEGER | PRIMARY KEY   AUTOINCREMENT | Place ID                                                  |
+| name        | TEXT    | NOT NULL UNIQUE             | Place name. Ex: Terrace, CoffeeBarSpace, Room1, Room2     |
+| description | TEXT    |                             | Optional description                                      |
+| id\_remote  | TEXT    |                             | generated Google Calendar ID - unique for every calendar  |
 
 
 **Item\_type (predefined table )**
 
-| Field | Type | CONSTRAINT | Description |
-| --- | --- | --- | --- |
-| id | INTEGER | PRIMARY KEY |   |
-| name | TEXT | NOT NULL | Predefined rows (1=Event, 2=Info, 3=Alert, 4=Message) |
+| Field | Type    | CONSTRAINT  | Description                                           |
+|-------|---------|-------------|-------------------------------------------------------|
+| id    | INTEGER | PRIMARY KEY |                                                       |
+| name  | TEXT    | NOT NULL    | Predefined rows (1=Event, 2=Info, 3=Alert, 4=Message) |
 
 
 **Items**
 
-| Field | Type | CONSTRAINT | Description |
-| --- | --- | --- | --- |
-| id | INTEGER   | PRIMARY KEY AUTOINCREMENT |   |
-| name | TEXT | NOT NULL |   |
-| description | TEXT |   | Optional |
-| start\_date | DATETIME | NOT NULL |   |
-| end\_date | DATETIME | NOT NULL |   |
-| isPrivate | BOOLEAN | DEFAULT 0 | Public - 0, Private -1 |
-| user\_id | INTEGER | NOT NULL REFERENCES users (id) | Item related to user with user\_id=users.ID |
-| place\_id | INTEGER | REFERENCES places (id) | Item  related to the place. Could be NULL if item intend for all places (ex:Alert) |
-| itemtype\_id | INTEGER | NOT NULL REFERENCES item\_type (id) |   |
-| id\_remote | TEXT |   | generated Google Calendar ID - unique for every calendar |
-| updated | BOOLEAN | DEFAULT 0 | False - 0, True -1 |
+| Field         | Type      | CONSTRAINT                          | Description                                                                         |
+|---------------|-----------|-------------------------------------|-------------------------------------------------------------------------------------|
+| id            | INTEGER   | PRIMARY KEY AUTOINCREMENT           |                                                                                     |
+| name          | TEXT      | NOT NULL                            |                                                                                     |
+| description   | TEXT      |                                     | Optional                                                                            |
+| start\_date   | DATETIME  | NOT NULL                            |                                                                                     |
+| end\_date     | DATETIME  | NOT NULL                            |                                                                                     |
+| isPrivate     | BOOLEAN   | DEFAULT 0                           | Public - 0, Private -1                                                              |
+| user\_id      | INTEGER   | NOT NULL REFERENCES users (id)      | Item related to user with user\_id=users.ID                                         |
+| place\_id     | INTEGER   | REFERENCES places (id)              | Item  related to the place. Could be NULL if item intend for all places (ex:Alert)  |
+| itemtype\_id  | INTEGER   | NOT NULL REFERENCES item\_type (id) |                                                                                     |
+| id\_remote    | TEXT      |                                     | generated Google Calendar ID - unique for every calendar                            |
+| updated       | BOOLEAN   | DEFAULT 0                           | False - 0, True -1                                                                  |
 
 
 
 
-### 2.4 Communication
+### 2.5 Communication
 Clients will use HTTP/HTTPS protocol to request data from RESTful API by calling predefined
 endpoints using the correct method. In response will receive JSON data structured mostly like the Items
 DB table.
