@@ -74,6 +74,8 @@ _The brief API endpoints specification_
 
 
 ### 2.2 Front-end Architecture Design
+![FE](App_fe.png | width=300)
+
 Check the projects's frontend repository <https://github.com/technology-nation-slovakia/campus-final-project-2017-FrontEnd-react16>
 
 
