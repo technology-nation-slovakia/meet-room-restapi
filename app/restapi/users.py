@@ -1,13 +1,12 @@
-# version 0.1.0
+# Users RESTful endpoints
 
 from flask_restful import Resource
 
-# Users RESTful endpoint methods definition
 class Users(Resource):
     # GET method
     def get(self, id=None):
         if id:
-            print('id=',id)
+            print('id=', id)
             return {'users': 'User details id={}'.format(id)}, 200 # OK
         else:
             return {'users': 'List all users'}, 200

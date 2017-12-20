@@ -40,10 +40,32 @@ def main():
     service = discovery.build('calendar', 'v3', http=http)
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
+    # name=>offset
+    # datetime.datetime.now(pytz.timezone('Europe/Prague')).strftime('%z')
+
+    calendars_list = service.calendarList().list().execute().get('items', [])
+    print('Calendars list')
+    for calendar in calendars_list:
+        print('Id: ', calendar['id'], '|', calendar['summary'], '|', calendar['timeZone'])
+
+    #print(calendars_list)
+    print('Getting today events from primary calendar')
+    tz = '+0100'
+    time_zone = datetime.timedelta(hours=int(tz[0:3]), minutes=int(tz[0]+tz[3:5]))
+    h24 = datetime.timedelta(hours=8)
+    #current_time = datetime.datetime.utcnow()
+    start_time = datetime.datetime(2017, 12, 10, 0, 30, 0)
+    end_time = datetime.datetime(2017, 12, 10, 10, 0, 0)
+    # apply timeZone difference between utc and local time and convert to ISO-8601 datetime
+    # timeMin = (current_time + time_zone).strftime("%Y-%m-%dT00:00:00"+tz)
+    # timeMax = (current_time + time_zone).strftime("%Y-%m-%dT23:59:59"+tz)
+    timeMin = start_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    timeMax = end_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    print('GC time range [', timeMin, ':', timeMax, ']')
     eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-        orderBy='startTime').execute()
+        calendarId='primary', timeMin=timeMin, timeMax=timeMax, maxResults=10, singleEvents=True,
+        orderBy='startTime', timeZone='UTC').execute()
+    #print(eventsResult)
     events = eventsResult.get('items', [])
 
     if not events:

@@ -111,3 +111,6 @@ manifest.yml
 
 #json
 *.json
+
+# test tools
+test-*.py

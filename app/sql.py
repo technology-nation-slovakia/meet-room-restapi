@@ -1,38 +1,49 @@
-# native SQL statements module
+# native SQL statements execution module
 from app import app, db
-import logging
+from app.console_log import console_log, sql_log
 import re
+import sqlalchemy.exc
 
 def runSQL(statement):
-    # execute SQL statement
-    result = db.engine.execute(statement)
 
-    # log statement
-    if app.debug:
-        app.logger.debug(statement)
+    try:
+        # log statement
+        sql_log(statement, 'note')
 
-    if re.search(r"^\s*SELECT", statement, re.I):
-        # transforn result to array of rows
-        rows = [dict(row) for row in result.fetchall()]
-        if app.debug:
-            print('Rows: ', len(rows))
+        # execute SQL statement
+        result = db.engine.execute(statement)
 
-        if len(rows) == 1:      # in case of result contains single item => return object
-            rows = rows[0]
-        elif len(rows) == 0:    # empty result
-            rows = {}
+        # SELECT statement handling
+        if re.search(r"^\s*SELECT", statement, re.I):
+            # transforn result to array of rows
+            rows = [dict(row) for row in result.fetchall()]
+            sql_log('Selected {} rows'.format(len(rows)), 'info')
 
-        return rows
+            if len(rows) == 1:      # in case of result contains single item => return object
+                rows = rows[0]
+            elif len(rows) == 0:    # empty result
+                rows = {}
 
-    elif re.search(r"^\s*INSERT", statement, re.I):
-        if app.debug:
-            print('Inserted ID: ', result.lastrowid)
-        return result.lastrowid
+            return rows
 
-    elif re.search(r"^\s*(?:DELETE|UPDATE)", statement, re.I):
-        if app.debug:
-            print('Deleted/Updated: ', result.rowcount)
-        return result.rowcount
+        # INSERT statement handling
+        elif re.search(r"^\s*INSERT", statement, re.I):
+            sql_log('Inserted ID: {}'.format(result.lastrowid), 'info')
+            return result.lastrowid
 
+        # DELETE statement handling
+        elif re.search(r"^\s*DELETE", statement, re.I):
+            sql_log('Deleted {} rows'.format(result.rowcount), 'info')
+            return result.rowcount
+
+        # UPDATE statement handling
+        elif re.search(r"^\s*UPDATE", statement, re.I):
+            sql_log('Updated {} rows'.format(result.rowcount), 'info')
+            return result.rowcount
+
+    # if constraint violated, return None
+    except sqlalchemy.exc.IntegrityError as err:
+        console_log('Integrity Error - ' + str(err.orig), 'fail')
+        return None
 
 

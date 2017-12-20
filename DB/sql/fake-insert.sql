@@ -4,10 +4,10 @@
 INSERT INTO users (email, name, surname, password) VALUES  ("johndoe@home", "John", "Doe", "password");
 
 -- rooms
-INSERT INTO Places (name, description, id_remote, timeZone) VALUES ('Room 1', 'Green Room', 'cscoursetest1@gmail.com', 1);
-INSERT INTO Places (name, description, id_remote, timeZone) VALUES ('Room 2', 'Blue Room', '19a82ol49q84c4sj4gdiimt9as@group.calendar.google.com', 1);
-INSERT INTO Places (name, description, id_remote, timeZone) VALUES ('Room 3', 'Coffee Open Space', 'sglon18uoo029k7u91r5bsoeeg@group.calendar.google.com', 1);
-INSERT INTO Places (name, description, id_remote, timeZone) VALUES ('Room 4', 'Terrace', 'oiv6geb1uda9lv1odgbhf5sjoo@group.calendar.google.com', 1);
+INSERT INTO Places (name, description, id_remote) VALUES ('Room 1', 'Green Room', 'cscoursetest1@gmail.com');
+INSERT INTO Places (name, description, id_remote) VALUES ('Room 2', 'Blue Room', '19a82ol49q84c4sj4gdiimt9as@group.calendar.google.com');
+INSERT INTO Places (name, description, id_remote) VALUES ('Room 3', 'Coffee Open Space', 'sglon18uoo029k7u91r5bsoeeg@group.calendar.google.com');
+INSERT INTO Places (name, description, id_remote) VALUES ('Room 4', 'Terrace', 'oiv6geb1uda9lv1odgbhf5sjoo@group.calendar.google.com');
 
 -- events in room1
 INSERT INTO items (name, description, start_date, end_date, user_id, place_id, itemtype_id) VALUES ('room1 Event #1','room1 desc Part1','2017-11-01 09:00:00', '2017-11-01 12:00:00', 1, 1, 1);

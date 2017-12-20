@@ -3,9 +3,9 @@ from app import app
 from flask_restful import Api
 
 # RESTful API endpoints
-from . restapi.items import Items, ItemsNow
-from . restapi.places import Places, PlacesItems, PlacesItemsNow
-from . restapi.google import PlacesGoogleEvents
+from app.restapi.items import Items, ItemsNow
+from app.restapi.places import Places, PlacesItems, PlacesItemsNow
+from app.restapi.google import PlacesGoogleEvents
 #from . restapi.users import Users, UserLogin, UserLogout, UserWhois
 
 api = Api(app)
@@ -14,8 +14,8 @@ api = Api(app)
 api.add_resource(Items,
                 '/api/items',
                 '/api/items/<string:id>',
-                '/api/items/dates/<string:startDate>',
-                '/api/items/dates/<string:startDate>/<string:endDate>')
+                '/api/items/dates/<string:start_date>',
+                '/api/items/dates/<string:start_date>/<string:end_date>')
 
 api.add_resource(ItemsNow,
                 '/api/items/now')
@@ -26,8 +26,8 @@ api.add_resource(Places,
 
 api.add_resource(PlacesItems,
                 '/api/places/<string:place_id>/items',
-                '/api/places/<string:place_id>/items/dates/<string:startDate>',
-                '/api/places/<string:place_id>/items/dates/<string:startDate>/<string:endDate>')
+                '/api/places/<string:place_id>/items/dates/<string:start_date>',
+                '/api/places/<string:place_id>/items/dates/<string:start_date>/<string:end_date>')
 
 api.add_resource(PlacesItemsNow,
                 '/api/places/<string:place_id>/items/now')

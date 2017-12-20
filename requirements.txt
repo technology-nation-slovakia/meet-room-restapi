@@ -2,3 +2,5 @@ Flask
 flask-restful
 flask_sqlalchemy
 google-api-python-client
+flask-cors
+pytz
