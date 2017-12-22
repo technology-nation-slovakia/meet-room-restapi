@@ -177,6 +177,22 @@ _JSON response example:_
 ]
 ```
 
+## DB init and server running
+Create database
+```sh
+./db-create
+```
+
+Insert fake data
+```sh
+./db-fakedata
+```
+
+Run server
+```sh
+./run.py
+```
+
 
 
 ## References
